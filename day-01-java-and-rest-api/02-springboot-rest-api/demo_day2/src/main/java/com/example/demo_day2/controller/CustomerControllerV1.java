@@ -10,6 +10,8 @@ import com.example.demo_day2.dto.CreateCustomerRequest;
 import com.example.demo_day2.dto.CustomerResponse;
 import com.example.demo_day2.service.CustomerService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/customers")
 public class CustomerControllerV1 {
@@ -21,7 +23,7 @@ public class CustomerControllerV1 {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody CreateCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
         CustomerResponse response = customerService.createCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -34,5 +36,19 @@ public class CustomerControllerV1 {
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable Long id) {
         return ResponseEntity.ok(customerService.getCustomerById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<CustomerResponse> updateCustomer(
+            @PathVariable Long id,
+            @Valid @RequestBody CreateCustomerRequest request) {
+        CustomerResponse response = customerService.updateCustomer(id, request);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+        customerService.deleteCustomer(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo_day2.dto.CreateCustomerRequest;
 import com.example.demo_day2.dto.CustomerResponse;
+import com.example.demo_day2.exception.CustomerNotFoundException;
 import com.example.demo_day2.model.Customer;
 
 @Service
@@ -50,7 +51,36 @@ public class CustomerService {
     public CustomerResponse getCustomerById(Long id) {
         Customer cs = customerStorage.get(id);
 
+        if (cs == null) {
+            throw new CustomerNotFoundException("Customer dengan id (" + id + ") tidak bisa ditemukan");
+        }
         return toResponse(cs);
+    }
+
+    public CustomerResponse updateCustomer(Long id, CreateCustomerRequest request) {
+        // 1. Cari data customer lama berdasarkan ID
+        Customer cs = customerStorage.get(id);
+
+        if (cs == null) {
+            throw new CustomerNotFoundException("Customer dengan id (" + id + ") tidak bisa ditemukan");
+        }
+
+        cs.setFullName(request.getFullName());
+        cs.setEmail(request.getEmail());
+        cs.setPhoneNumber(request.getPhoneNumber());
+
+        customerStorage.put(id, cs);
+
+        return toResponse(cs);
+    }
+
+    public void deleteCustomer(Long id) {
+
+        if (!customerStorage.containsKey(id)) {
+            throw new CustomerNotFoundException("Customer dengan id (" + id + ") tidak bisa ditemukan");
+        }
+
+        customerStorage.remove(id);
     }
 
 }
