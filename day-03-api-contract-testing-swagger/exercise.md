@@ -199,19 +199,19 @@ Make sure JSON appears.
 - [x] `GET /api/v1/customers/{id}` returns 200 OK for existing customer.
 - [x] `GET /api/v1/customers/{id}` returns 404 for unknown customer.
 - [x] `PUT /api/v1/customers/{id}` updates all fields.
-- [ ] `PATCH /api/v1/customers/{id}` updates only provided fields.
-- [ ] API contract is written in markdown.
-- [ ] Postman testing is completed.
-- [ ] Swagger UI can be opened.
-- [ ] API can be tested from Swagger UI.
-- [ ] `/v3/api-docs` returns OpenAPI JSON.
-- [ ] JSON uses snake_case.
-- [ ] Java fields use camelCase.
+- [x] `PATCH /api/v1/customers/{id}` updates only provided fields.
+- [x] API contract is written in markdown.
+- [x] Postman testing is completed.
+- [x] Swagger UI can be opened.
+- [x] API can be tested from Swagger UI.
+- [x] `/v3/api-docs` returns OpenAPI JSON.
+- [x] JSON uses snake_case.
+- [x] Java fields use camelCase.
 
 ## Optional Challenge
 
-- Add `created_at` and `updated_at` in `CustomerResponse`.
-- Add query parameter search by email.
+- Add `created_at` and `updated_at` in `CustomerResponse`. done
+- Add query parameter search by email. (done)
 - Add simple pagination contract.
 - Add OpenAPI description for `ErrorResponse`.
-- Add screenshots of Swagger UI result.
+- Add screenshots of Swagger UI result. (done)

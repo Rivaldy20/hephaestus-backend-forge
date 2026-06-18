@@ -1,17 +1,13 @@
 package com.example.demo_day2.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.example.demo_day2.dto.CreateCustomerRequest;
 import com.example.demo_day2.dto.CustomerResponse;
 import com.example.demo_day2.dto.PatchCustomerRequest;
 import com.example.demo_day2.dto.UpdateCustomerRequest;
 import com.example.demo_day2.service.CustomerService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -41,7 +37,11 @@ public class CustomerControllerV1 {
     @Operation(summary = "Get all customers", description = "Retrieves a list of all customers")
     @ApiResponse(responseCode = "200", description = "List of customers retrieved successfully")
     @ApiResponse(responseCode = "404", description = "Customer not found")
-    public ResponseEntity<List<CustomerResponse>> getCustomerResponse() {
+    public ResponseEntity<?> getCustomerResponse(@RequestParam(required = false) String email) {
+
+        if (email != null && !email.isBlank()) {
+            return ResponseEntity.ok(customerService.getCustomerByEmail(email));
+        }
         return ResponseEntity.ok(customerService.getCustomers());
     }
 
@@ -83,14 +83,4 @@ public class CustomerControllerV1 {
         CustomerResponse response = customerService.patchCustomer(id, request);
         return ResponseEntity.ok(response);
     }
-
-    @GetMapping("/search")
-    @Operation(summary = "Get customer by email", description = "Retrieves a customer by their email address")
-    @ApiResponse(responseCode = "200", description = "Customer retrieved successfully")
-    @ApiResponse(responseCode = "404", description = "Customer not found")
-    public ResponseEntity<CustomerResponse> getCustomerByEmail(@RequestParam String email) {
-        return ResponseEntity.ok(
-            customerService.getCustomerByEmail(email));
-    }
-
 }

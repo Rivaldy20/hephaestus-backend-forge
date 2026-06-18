@@ -14,6 +14,12 @@ Swagger UI:
 http://localhost:8080/swagger-ui/index.html
 ```
 
+Swagger JSON:
+
+```text
+http://localhost:8080/v3/api-docs
+```
+
 ---
 
 # 🔹 1. Create Customer
@@ -284,8 +290,62 @@ Mengupdate sebagian data customer (partial update).
 
 ---
 
+# 🔹 6. Get Customer By Email
+
+## Method
+
+GET
+
+## URL
+
+```
+/api/v1/customers?email=
+```
+
+## Description
+
+Mengambil data customer berdasarkan Email.
+
+## Request Body
+
+Tidak ada
+
+## Success Response
+
+```json
+{
+  "id": 1,
+  "full_name": "John Doe",
+  "email": "john@example.com",
+  "phone_number": "08123456789",
+  "updated_at": "2026-06-17T16:12:48.2818003",
+  "created_at": "2026-06-17T16:12:48.2818003"
+}
+```
+
+## Error Response
+
+```json
+{
+  "success": false,
+  "message": null,
+  "data": null,
+  "error": "Customer dengan Email (john@example.com) tidak bisa ditemukan",
+  "details": null
+}
+```
+
+## Status Code
+
+- 200 OK
+- 404 Not Found
+
+---
+
 # ✅ Notes
 
 - PUT = full update
 - PATCH = partial update
 - Validation berlaku di POST & PUT
+
+![Tampilan Swagger](image.png)
