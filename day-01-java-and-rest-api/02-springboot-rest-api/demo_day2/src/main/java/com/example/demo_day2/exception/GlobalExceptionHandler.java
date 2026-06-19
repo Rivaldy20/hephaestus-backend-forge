@@ -37,4 +37,17 @@ public class GlobalExceptionHandler {
     private String format(FieldError error) {
         return error.getField() + " " + error.getDefaultMessage();
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<?> handleUnauthorized(UnauthorizedException e) {
+        return ResponseEntity.status(401)
+                .body(WebResponse.error("401", "UNAUTHORIZED", null));
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<?> handleForbidden(ForbiddenException e) {
+        return ResponseEntity.status(403)
+                .body(WebResponse.error("403", "FORBIDDEN", null));
+    }
+
 }
