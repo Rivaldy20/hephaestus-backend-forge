@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo_day2.dto.CreateLoanApplicationRequest;
+import com.example.demo_day2.model.LoanStatus;
 import com.example.demo_day2.model.Role;
 import com.example.demo_day2.model.User;
 import com.example.demo_day2.security.AuthUtil;
@@ -44,7 +46,10 @@ public class LoanApplicationController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll(HttpServletRequest request) {
+    public ResponseEntity<?> getAll(
+            @RequestParam(required = false) LoanStatus status,
+            @RequestParam(name = "customer_id", required = false) Long customerId,
+            HttpServletRequest request) {
         User user = AuthUtil.authenticate(request, authService);
         RoleValidator.validate(user, Role.ADMIN, Role.STAFF, Role.APPROVER);
 
@@ -61,10 +66,11 @@ public class LoanApplicationController {
 
     @PatchMapping("/{id}/approve")
     public ResponseEntity<?> approve(@PathVariable Long id, HttpServletRequest request) {
-        User user = AuthUtil.authenticate(request, authService);
-        RoleValidator.validate(user, Role.ADMIN, Role.APPROVER);
 
-        return ResponseEntity.ok(service.approve(id));
+        User user = AuthUtil.authenticate(request, authService);
+        RoleValidator.validate(user, Role.ADMIN, Role.APPROVER, Role.MANAGER);
+
+        return ResponseEntity.ok(service.approve(id, user));
     }
 
     @PatchMapping("/{id}/reject")
@@ -74,4 +80,14 @@ public class LoanApplicationController {
 
         return ResponseEntity.ok(service.reject(id));
     }
+
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<?> cancel(@PathVariable Long id, HttpServletRequest request) {
+
+        User user = AuthUtil.authenticate(request, authService);
+        RoleValidator.validate(user, Role.ADMIN, Role.STAFF, Role.MANAGER);
+
+        return ResponseEntity.ok(service.cancel(id));
+    }
+
 }

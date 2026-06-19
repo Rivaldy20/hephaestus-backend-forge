@@ -19,5 +19,22 @@ public class RoleValidator {
                     HttpStatus.FORBIDDEN,
                     "You do not have permission to access this resource");
         }
+
+        // boolean allowed = false; // default: tidak boleh
+
+        // for (Role role : allowedRoles) {
+        // if (role == user.getRole()) {
+        // allowed = true; // kalau ketemu yang cocok
+        // break; // stop loop
+        // }
+        // }
+
+        // if (!allowed) {
+        // throw new ResponseStatusException(
+        // HttpStatus.FORBIDDEN,
+        // "You do not have permission to access this resource"
+        // );
+        // }
+
     }
 }

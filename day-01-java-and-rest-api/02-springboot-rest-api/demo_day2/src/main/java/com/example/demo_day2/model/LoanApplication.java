@@ -16,6 +16,6 @@ public class LoanApplication {
     private Double loanAmount;
     private Integer tenorMonth;
     private String purpose;
-    private String status;
+    private LoanStatus status;
 
 }

@@ -65,7 +65,6 @@ public class CustomerService {
     }
 
     public CustomerResponse updateCustomer(Long id, UpdateCustomerRequest request) {
-        // 1. Cari data customer lama berdasarkan ID
         Customer cs = customerStorage.get(id);
 
         if (cs == null) {
